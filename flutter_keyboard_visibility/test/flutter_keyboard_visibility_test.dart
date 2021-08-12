@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_test/flutter_test.dart';
+//ignore: import_of_legacy_library_into_null_safe
 import 'package:mockito/mockito.dart';
 
 class MockKeyboardVisibilityController extends Mock
@@ -20,7 +22,7 @@ void main() {
 
       // Build a Widget tree and query KeyboardVisibilityProvider
       // for the visibility of the keyboard.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
@@ -50,7 +52,7 @@ void main() {
 
       // Build a Widget tree and query KeyboardVisibilityProvider
       // for the visibility of the keyboard.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
@@ -80,7 +82,7 @@ void main() {
       when(mockController.isVisible).thenAnswer((_) => true);
 
       // Build a Widget tree with a KeyboardVisibilityProvider.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityProvider(
@@ -123,7 +125,7 @@ void main() {
 
       // Build a Widget tree and query KeyboardVisibilityBuilder
       // for the visibility of the keyboard.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -150,7 +152,7 @@ void main() {
 
       // Build a Widget tree and query KeyboardVisibilityBuilder
       // for the visibility of the keyboard.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -177,7 +179,7 @@ void main() {
       when(mockController.isVisible).thenAnswer((_) => true);
 
       // Build a Widget tree with a KeyboardVisibilityBuilder.
-      bool isKeyboardVisible;
+      bool? isKeyboardVisible;
 
       await tester.pumpWidget(
         KeyboardVisibilityBuilder(
@@ -201,6 +203,43 @@ void main() {
       // Verify that our descendant rebuilt itself, and received the
       // updated visibility of the keyboard.
       expect(isKeyboardVisible, false);
+    });
+  });
+
+  group('KeyboardDismissOnTap', () {
+    testWidgets('It removes focus when tapped', (WidgetTester tester) async {
+      var focusNode = FocusNode();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: KeyboardDismissOnTap(
+            child: Material(
+              child: Column(
+                children: [
+                  SizedBox(
+                    key: Key('box'),
+                    height: 100,
+                  ),
+                  TextField(
+                    focusNode: focusNode,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // TextField starts unfocused
+      expect(focusNode.hasFocus, false);
+
+      // Focus TextField
+      focusNode.requestFocus();
+      await tester.pump();
+      expect(focusNode.hasFocus, true);
+
+      // Tapping within KeyboardDismissOnTap removes focus
+      await tester.tap(find.byKey(Key('box')));
+      expect(focusNode.hasFocus, false);
     });
   });
 }

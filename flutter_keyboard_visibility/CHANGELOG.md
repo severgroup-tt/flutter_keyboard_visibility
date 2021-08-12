@@ -1,3 +1,40 @@
+## [5.0.3] - July 20, 2021
+
+* Updated documentation
+* Reverted the change made in 4.0.4 that changed how keyboard visibility is done on Android
+
+## [5.0.2] - April 16, 2021
+
+* Updated documentation
+
+## [5.0.1] - April 16, 2021
+
+* Updated Android target/compile SDK versions to 30
+* Updated Android gradle build tools to 3.6.4
+* Updated AndroidX Core to 1.5.0-rc01
+
+## [5.0.0] - March 4, 2021
+
+* Updated dependencies & release stable null safe version 
+
+## [5.0.0-nullsafety.3] - February 26, 2021
+
+* Fixed onChange notifying the same value multiple times on Android
+* Fixed bug introduced in 4.0.5 that would cause keyboard changes not to be notified
+
+## [5.0.0-nullsafety.2] - February 18, 2021
+
+* Improve Android implementation with WindowInsetsCompat
+
+## [5.0.0-nullsafety.1] - November 30, 2020
+
+* Remove Android X import and annotations in Android code to reduce possibility of build errors
+
+## [5.0.0-nullsafety.0] - November 30, 2020
+
+* Migrated to null safety
+* Removed deprecated KeyboardVisibility static access APIs
+
 ## [4.0.6] - February 26, 2021
 
 * Fixed bug introduced in 4.0.5 that would cause keyboard changes not to be notified
